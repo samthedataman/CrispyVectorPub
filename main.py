@@ -12,7 +12,7 @@ load_dotenv()
 
 openai_key = st.secrets["OPENAI_API_KEY"]
 weaviate_key = st.secrets["WEAVIATE_API_KEY"]
-weaviate_url = st.secrets["WEAVIATE_URL"
+weaviate_url = st.secrets["WEAVIATE_URL"]
 
 
 auth_config = weaviate.AuthApiKey(api_key=weaviate_key)
