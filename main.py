@@ -208,7 +208,7 @@ def get_semantic_results(text):
 
 if search_text:
     results = get_semantic_results(search_text)
-    st.write(results)
+    # st.write(results)
     # # Convert the nested structure into a flat dataframe
     # food_items = results["data"]["Get"]["CrisyNYC"]
 
