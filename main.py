@@ -10,9 +10,9 @@ from io import BytesIO
 
 load_dotenv()
 
-openai_key = st.secrets["OPENAI_API_KEY"]
-weaviate_key = st.secrets["WEAVIATE_API_KEY"]
-weaviate_url = st.secrets["WEAVIATE_URL"]
+openai_key = os.getenv("OPENAI_API_KEY")
+weaviate_key = os.environ.get("WEAVIATE_API_KEY")
+weaviate_url = os.environ.get("WEAVIATE_URL")
 
 
 auth_config = weaviate.AuthApiKey(api_key=weaviate_key)
@@ -155,14 +155,14 @@ st.markdown("</div>", unsafe_allow_html=True)
 def get_semantic_results(text):
     response = (
         client.query.get(
-            "Food",
+            "CrisyNYC",
             [
                 "dish_ID",
                 "dishName",
                 "restaurantRating",
                 "cuisine",
                 "priceUber",
-                "priceCategories",
+                "priceDescription",
                 "restaurantName",
                 "suitableDiseaseFoodTags",
                 "restaurantRating",
@@ -189,9 +189,11 @@ def get_semantic_results(text):
                 "bitterness_Category",
                 "sour_Category",
                 "savory_Delicious_Category",
+                "eater_ReviewDictVec",
+                "infatuation_ReviewDictVec",
             ],
         )
-        .with_near_text({"concepts": [str(text)]})
+        .with_near_text({"concepts": [text]})
         .do()
     )
     return response
@@ -206,13 +208,12 @@ def get_semantic_results(text):
 
 if search_text:
     results = get_semantic_results(search_text)
-
     # # Convert the nested structure into a flat dataframe
-    food_items = results["data"]["Get"]["Food"]
+    # food_items = results["data"]["Get"]["CrisyNYC"]
 
     # Convert JSON data to DataFrame
     if results:
-        df = pd.json_normalize(results["data"]["Get"]["Food"])
+        df = pd.json_normalize(results["data"]["Get"]["CrisyNYC"])
         # st.dataframe(df)
 
         # Display food metrics in a grid layout using Streamlit
@@ -320,7 +321,7 @@ if search_text:
                 "Select Your Diet More Specific", ["All"] + unique_diets_2
             )
             # Price Filter
-            unique_prices = food_df["priceCategories"].unique().tolist()
+            unique_prices = food_df["priceDescription"].unique().tolist()
             selected_price = st.sidebar.selectbox(
                 "Select Price", ["All"] + unique_prices
             )
@@ -350,7 +351,7 @@ if search_text:
                 food_df = food_df[food_df["cuisine"] == selected_cuisine]
 
             if selected_price != "All":
-                food_df = food_df[food_df["priceCategories"] == selected_price]
+                food_df = food_df[food_df["priceDescription"] == selected_price]
 
             food_df = food_df[
                 (food_df["restaurantRating"] >= selected_rating_range[0])
@@ -359,7 +360,7 @@ if search_text:
 
             num_foods = len(food_df)
 
-            metrics_per_row = 2  # Set the number of columns per row for the grid
+            metrics_per_row = 3  # Set the number of columns per row for the grid
             num_containers = (num_foods // metrics_per_row) + (
                 num_foods % metrics_per_row > 0
             )  # Round up for the grid
@@ -375,8 +376,8 @@ if search_text:
                             food_info = food_df.iloc[food_index]
                             with cols[metric_index]:
                                 with st.expander(
-                                    f"{food_info['dishName']} ({food_info['emoji']}~~~{food_info['priceCategories']}",
-                                    expanded=True,
+                                    f"{food_info['dishName']} ({food_info['emoji'],food_info['priceUber'],food_info['eater_ReviewDictVec'],food_info['infatuation_ReviewDictVec']}~~~{food_info['neighborhood']}",
+                                    expanded=False,
                                 ):
                                     uber_link = food_info["linkUber"]
                                     door_dash_link = food_info["linkDoorDash"]
