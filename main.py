@@ -208,12 +208,13 @@ def get_semantic_results(text):
 
 if search_text:
     results = get_semantic_results(search_text)
+    st.write(results)
     # # Convert the nested structure into a flat dataframe
     # food_items = results["data"]["Get"]["CrisyNYC"]
 
     # Convert JSON data to DataFrame
     if results:
-        df = pd.json_normalize(results["data"]["Get"]["CrisyNYC"])
+        df = pd.json_normalize(results['data']['Get']['CrisyNYC'])
         # st.dataframe(df)
 
         # Display food metrics in a grid layout using Streamlit
