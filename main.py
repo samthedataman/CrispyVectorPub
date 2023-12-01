@@ -313,7 +313,7 @@ if search_text:
             )
 
             # Diet Filter in the third column
-            unique_diets_2 = food_df["dietTags"].unique().tolist()
+            unique_diets_2 = food_df["cleanedDiets"].unique().tolist()
             selected_diet_2 = col3.selectbox(
                 "Select Your Diet More Specific", ["All"] + unique_diets_2
             )
@@ -331,7 +331,7 @@ if search_text:
 
             # Apply Filters
             if selected_diet_2 != "All":
-                food_df = food_df[food_df["dietTags"] == selected_diet_2]
+                food_df = food_df[food_df["cleanedDiets"] == selected_diet_2]
 
                 # Apply Filters
             if selected_disease != "All":
