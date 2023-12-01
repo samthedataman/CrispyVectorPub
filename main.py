@@ -307,7 +307,7 @@ if search_text:
             )
 
             # Disease Filter in the second column
-            unique_disease = food_df["suitableDiseaseFoodTags"].unique().tolist()
+            unique_disease = food_df["normalizedSuitableDiseaseFoodTags"].unique().tolist()
             selected_disease = col2.selectbox(
                 "Do you have health concerns?", ["All"] + unique_disease
             )
