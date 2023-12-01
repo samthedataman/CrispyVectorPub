@@ -408,7 +408,7 @@ if search_text:
                                     st.write(f"Cuisine: {food_info['cuisine']}")
                                     st.write(f"Rating: {food_info['restaurantRating']}")
                                     st.write(f"Price: {food_info['priceUber']}")
-                                    st.write(f"Ingredients: {food_info['ingredients']}")
+                                    st.write(f"Ingredients: {food_info['normalizedIngredients']}")
                                     st.write(f"Phone: {food_info['restaurantPhone']}")
                                     st.write(
                                         f"Food History: {food_info['foodHistory']}"
