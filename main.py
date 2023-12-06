@@ -188,6 +188,7 @@ def get_semantic_results(text):
             "savory_Delicious_Category",
             "eater_ReviewDictVec",
             "infatuation_ReviewDictVec",
+                "foodItemLinkUber"
             ],
         )
         .with_near_text({"concepts": [text]})
@@ -377,7 +378,7 @@ if search_text:
                                     f"{food_info['dishName']} ({food_info['emoji'],food_info['priceUber'],food_info['eater_ReviewDictVec'],food_info['infatuation_ReviewDictVec']}~~~{food_info['neighborhood']}",
                                     expanded=False,
                                 ):
-                                    uber_link = food_info["linkUber"]
+                                    uber_link = food_info["foodItemLinkUber"]
                                     door_dash_link = food_info["linkDoorDash"]
                                     if uber_link and uber_link != "None":
                                         st.markdown(
