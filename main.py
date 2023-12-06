@@ -59,6 +59,7 @@ fields = [
             "savory_Delicious_Category",
             "eater_ReviewDictVec",
             "infatuation_ReviewDictVec",
+    "foodItemLinkUber"
 ]
 
 # Number of results to fetch
